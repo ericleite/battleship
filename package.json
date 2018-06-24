@@ -1,0 +1,21 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "jest"
+  },
+  "author": "Eric Leite",
+  "license": "ISC",
+  "dependencies": {
+    "prompt": "1.0.0"
+  },
+  "devDependencies": {
+    "jest": "23.1.0"
+  }
+}
