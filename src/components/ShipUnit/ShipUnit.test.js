@@ -7,8 +7,8 @@ test('initializes correctly', () => {
   expect(TestUnit.state.health).toBe(1);
 });
 
-test('destroy unit', () => {
+test('unit takes damage', () => {
   const TestUnit = new ShipUnit(0, 0);
-  TestUnit.damage();
+  TestUnit.takeDamage();
   expect(TestUnit.state.health).toBe(0);
 });

@@ -10,16 +10,48 @@ function createCruiser() {
   return new Ship(cruiserUnits);
 }
 
-test('damageUnit reduces unit health', () => {
-  function damageUnitWithoutPower() {
-    Cruiser.damageUnit();
-  }
-  const Cruiser = createCruiser();
-  Cruiser.damageUnit(3);
-  expect(Cruiser._units.length).toBe(2);
-  expect(Cruiser._destroyedUnits.length).toBe(1);
-  expect(Cruiser._destroyedUnits[0].state.health).toBe(0);
-  expect(damageUnitWithoutPower).toThrow();
+function createCruiserWithNonSequentialXUnits() {
+  const cruiserUnits = [
+    new ShipUnit(0, 1),
+    new ShipUnit(2, 1),
+    new ShipUnit(3, 1)
+  ];
+  return new Ship(cruiserUnits);
+}
+
+function createCruiserWithNonSequentialYUnits() {
+  const cruiserUnits = [
+    new ShipUnit(1, 0),
+    new ShipUnit(1, 2),
+    new ShipUnit(1, 3)
+  ];
+  return new Ship(cruiserUnits);
+}
+
+function createDiagonalCruiser() {
+  const cruiserUnits = [
+    new ShipUnit(0, 0),
+    new ShipUnit(1, 1),
+    new ShipUnit(2, 2)
+  ];
+  return new Ship(cruiserUnits);
+}
+
+function createRandomCruiser() {
+  const cruiserUnits = [
+    new ShipUnit(0, 0),
+    new ShipUnit(1, 5),
+    new ShipUnit(4, 3)
+  ];
+  return new Ship(cruiserUnits);
+}
+
+test('initializes correctly', () => {
+  expect(createCruiser).not.toThrow();
+  expect(createCruiserWithNonSequentialXUnits).toThrow();
+  expect(createCruiserWithNonSequentialYUnits).toThrow();
+  expect(createDiagonalCruiser).toThrow();
+  expect(createRandomCruiser).toThrow();
 });
 
 test('getHealth returns total ship health', () => {
@@ -29,6 +61,5 @@ test('getHealth returns total ship health', () => {
 
 test('getUnits returns all ship units', () => {
   const Cruiser = createCruiser();
-  Cruiser.damageUnit(1);
   expect(Cruiser.getUnits().length).toBe(3);
 });

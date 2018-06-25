@@ -19,7 +19,11 @@ class ShipUnit {
     return this.state.health;
   }
 
-  damage(amount = 1) {
+  /**
+   * Reduces this unit's health by the given amount.
+   * @param {Number} amount - Amount of damage to take.
+   */
+  takeDamage(amount = 1) {
     let reducedHealth = this.state.health - amount;
     if (reducedHealth < 0) {
       reducedHealth = 0;
