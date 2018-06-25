@@ -1,35 +1,38 @@
-class ShipUnit {
-  constructor(x, y, health = 1) {
-    if (isNaN(x)) {
-      throw new Error('Initial x position is required.');
-    }
-    this.x = x;
+const Unit = require('../Unit/Unit');
 
-    if (isNaN(y)) {
-      throw new Error('Initial y position is required.');
-    }
-    this.y = y;
-
-    this.state = {
-      health
-    }
+class ShipUnit extends Unit {
+  constructor(ship, health = 1) {
+    super();
+    this.health = health;
+    this.ship = ship;
   }
 
   getHealth() {
-    return this.state.health;
+    return this.health;
   }
 
-  /**
-   * Reduces this unit's health by the given amount.
-   * @param {Number} amount - Amount of damage to take.
-   */
-  takeDamage(amount = 1) {
-    let reducedHealth = this.state.health - amount;
+  receiveAttack(damage = 1) {
+    super.receiveAttack();
+    let reducedHealth = this.health - damage;
     if (reducedHealth < 0) {
       reducedHealth = 0;
     }
-    this.state.health = reducedHealth;
+    this.health = reducedHealth;
+    if (this.ship) {
+      this.ship.updateStatus();
+      this.ship.logStatus();
+    }
+  }
+
+  updateStatus() {
+    if (this.attacks === 1) {
+      this.status = 'HIT';
+    } else if (this.attacks > 1) {
+      this.status = 'TAKEN';
+    }
   }
 }
+
+Unit.constructor.name = 'ShipUnit';
 
 module.exports = ShipUnit;

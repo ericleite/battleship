@@ -1,14 +1,18 @@
-const uuidv4 = require('uuid/v4');
+const Board = require('../Board/Board');
 
 class Player {
-  constructor(name, ships) {
+  constructor(name, fleet, boardSize) {
     this.name = name;
-    this.ships = ships;
-    this.id = uuidv4();
+    this.fleet = fleet;
+    this.board = new Board(boardSize, fleet);
   }
 
   getHealth() {
-    return this.ships.reduce((acc, ship) => acc + ship.getHealth(), 0);
+    return this.fleet.reduce((acc, ship) => acc + ship.getHealth(), 0);
+  }
+
+  receiveAttack(x, y) {
+    this.board.receiveAttack(x, y);
   }
 }
 

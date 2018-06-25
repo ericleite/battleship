@@ -1,14 +1,20 @@
 const ShipUnit = require('./ShipUnit');
 
-test('initializes correctly', () => {
-  const TestUnit = new ShipUnit(0, 1);
-  expect(TestUnit.x).toBe(0);
-  expect(TestUnit.y).toBe(1);
-  expect(TestUnit.state.health).toBe(1);
-});
+describe('ShipUnit', () => {
 
-test('unit takes damage', () => {
-  const TestUnit = new ShipUnit(0, 0);
-  TestUnit.takeDamage();
-  expect(TestUnit.state.health).toBe(0);
+  test('initializes correctly', () => {
+    const TestUnit = new ShipUnit();
+    expect(TestUnit.health).toBe(1);
+  });
+
+  test('unit receives attack', () => {
+    const TestUnit = new ShipUnit();
+    TestUnit.receiveAttack();
+    expect(TestUnit.health).toBe(0);
+    expect(TestUnit.status).toBe('HIT');
+    TestUnit.receiveAttack();
+    expect(TestUnit.health).toBe(0);
+    expect(TestUnit.status).toBe('TAKEN');
+  });
+
 });

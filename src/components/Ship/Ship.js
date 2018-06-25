@@ -1,41 +1,54 @@
+const ShipUnit = require('../ShipUnit/ShipUnit');
+const { MESSAGES, ORIENTATIONS } = require('../../utils/constants');
+
 class Ship {
-  constructor(units = [], power = 1) {
-    this.validateUnits(units);
-    this.units = units;
-    this.power = 1;
+  constructor(
+    size,
+    coordinates = [0, 0],
+    orientation = ORIENTATIONS.H,
+    units = []
+  ) {
+    this._units = units;
+    if (units.length === 0) {
+      this._units = this.makeUnits(size);
+    }
+    this.size = size;
+    this.orientation = orientation;
+    this.x = coordinates[0];
+    this.y = coordinates[1];
+    this.sunk = false;
   }
 
   getHealth() {
-    return this.units.reduce((acc, unit) => {
+    return this._units.reduce((acc, unit) => {
       return acc + unit.getHealth();
     }, 0);
   }
 
   getUnits() {
-    return this.units;
+    return this._units;
   }
 
-  /**
-   * Validates the arrangement of the given units.
-   * X values should be sequential integers with constant y or vice versa.
-   * @param {Array} units - Array of ShipUnits to validate.
-   */
-  validateUnits(units) {
-    if (units.length > 1) {
-      const unitsSortedByX = [...units].sort((a, b) => a.x - b.x);
-      const unitsSortedByY = [...units].sort((a, b) => a.y - b.y);
-      const xSpread = unitsSortedByX[unitsSortedByX.length - 1].x - unitsSortedByX[0].x;
-      const ySpread = unitsSortedByY[unitsSortedByY.length - 1].y - unitsSortedByY[0].y;
-      const xIsSequential = xSpread/(unitsSortedByX.length - 1) === 1;
-      const yIsSequential = ySpread/(unitsSortedByY.length - 1) === 1;
-      if (!(xIsSequential || yIsSequential)) {
-        throw new Error('units must have sequential positions');
-      }
-      if (!(xSpread === 0 || ySpread === 0)) {
-        throw new Error('units must be aligned horizontally or vertically');
-      }
+  makeUnits(amount) {
+    const units = [];
+    for (let i = 0; i < amount; i++) {
+      units.push(new ShipUnit(this));
+    }
+    return units;
+  }
+
+  logStatus() {
+    if (this.sunk) {
+      console.log(MESSAGES.SUNK);
     }
   }
+
+  updateStatus() {
+    if (this.getHealth() === 0) {
+      this.sunk = true;
+    }
+  }
+
 }
 
 module.exports = Ship;
