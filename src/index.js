@@ -1,9 +1,9 @@
 // Libs
 const prompt = require('prompt');
-const Battleship = require('./components/Battleship/Battleship.js');
+const Game = require('./components/Game/Game');
 
 // Initialize new game
-const Game = new Battleship();
+const Battleship = new Game();
 
 // Schemas for user input
 const promptSchema = {
