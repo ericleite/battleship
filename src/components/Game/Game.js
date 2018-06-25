@@ -13,6 +13,9 @@ class Game {
 
   attack(name, x, y) {
     const player = this.players.find(p => p.name === name);
+    if (!player) {
+      throw new Error(`player "${name}" not found`);
+    }
     player.receiveAttack(x, y);
     this.updateStatus();
     this.logStatus();
