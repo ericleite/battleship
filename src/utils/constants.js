@@ -9,5 +9,19 @@ module.exports = {
   ORIENTATIONS: {
     V: 'v',
     H: 'h'
+  },
+  SHIPS: {
+    // CARRIER: 'carrier',
+    // BATTLESHIP: 'battleship',
+    // CRUISER: 'cruiser',
+    // SUBMARINE: 'submarine',
+    DESTROYER: 'destroyer'
+  },
+  SHIP_SIZE_BY_TYPE: {
+    carrier: 5,
+    battleship: 4,
+    cruiser: 3,
+    submarine: 3,
+    destroyer: 2,
   }
 };

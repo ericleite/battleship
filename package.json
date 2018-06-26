@@ -13,7 +13,8 @@
   "author": "Eric Leite",
   "license": "ISC",
   "dependencies": {
-    "prompt": "1.0.0",
+    "inquirer": "6.0.0",
+    "lodash": "4.17.10",
     "uuid": "3.2.1"
   },
   "devDependencies": {

@@ -1,25 +1,33 @@
 // Libs
-const prompt = require('prompt');
 const Game = require('./components/Game/Game');
+const {
+  askForGameSettings,
+  askForPlayerSettings
+} = require('./utils/prompt');
+const { buildFleet } = require('./utils/game');
 
-// Initialize new game
-const Battleship = new Game();
+async function startGame() {
+  console.log('Welcome to Battleship!');
 
-// Schemas for user input
-const promptSchema = {
-  properties: {
-    mode: {
-      description: 'Who would you like to play against: human or computer?',
-      type: 'string',
-      pattern: /^(human|computer)$/,
-      message: 'You must enter either "human" or "computer".',
-      required: true
-    }
+  // Get user-defined game config
+  const { settings } = await askForGameSettings();
+
+  // Initialize game
+  const Game1 = new Game(settings.size);
+
+  // Build player 1 fleet
+  const { player1 } = await askForPlayerSettings('player1');
+  const player1Fleet = buildFleet(player1);
+  Game1.addPlayer(player1.name, player1Fleet);
+
+  if (settings.opponent === 'human') {
+    // Build player 2 fleet if human was selected
+    const { player2 } = await askForPlayerSettings('player2');
+    const player2Fleet = buildFleet(player2);
+    Game1.addPlayer(player2.name, player2Fleet);
+  } else {
+    // Build computer fleet if human was selected
   }
-};
-const userInput = {};
-console.log('Welcome to Battleship!');
-prompt.start();
-prompt.get(promptSchema, function (err, result) {
-  console.log(result);
-});
+}
+
+startGame();
