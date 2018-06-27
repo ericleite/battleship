@@ -11,8 +11,8 @@ class Player {
     return this.fleet.reduce((acc, ship) => acc + ship.getHealth(), 0);
   }
 
-  logBoard() {
-    this.board.logBoard();
+  logBoard(format) {
+    this.board.logBoard(format);
   }
 
   receiveAttack(x, y) {

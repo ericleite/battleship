@@ -12,10 +12,10 @@ module.exports = {
   },
   SHIPS: {
     // CARRIER: 'carrier',
-    // BATTLESHIP: 'battleship',
+    BATTLESHIP: 'battleship',
     // CRUISER: 'cruiser',
     // SUBMARINE: 'submarine',
-    DESTROYER: 'destroyer'
+    // DESTROYER: 'destroyer'
   },
   SHIP_SIZE_BY_TYPE: {
     carrier: 5,

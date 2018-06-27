@@ -1,10 +1,12 @@
 // Libs
-const Game = require('./components/Game/Game');
+const BattleshipGame = require('./components/Game/Game');
 const {
   askForGameSettings,
-  askForPlayerSettings
+  askForPlayerSettings,
+  askForPlayerAttack,
+  runAttackSequence
 } = require('./utils/prompt');
-const { buildFleet } = require('./utils/game');
+const { addPlayer } = require('./utils/game');
 
 async function startGame() {
   console.log('Welcome to Battleship!');
@@ -13,25 +15,18 @@ async function startGame() {
   const { settings } = await askForGameSettings();
 
   // Initialize game
-  const Game1 = new Game(settings.size);
+  const Game = new BattleshipGame(settings.size);
 
-  // Build player 1 fleet
-  const { player1 } = await askForPlayerSettings('player1');
-  const player1Fleet = buildFleet(player1);
-  Game1.addPlayer(player1.name, player1Fleet);
-  Game1.logBoard(player1.name);
-
+  // Add players
+  await addPlayer(Game, 'player1');
   if (settings.opponent === 'human') {
-    // Build player 2 fleet if human was selected
-    const { player2 } = await askForPlayerSettings('player2');
-    const player2Fleet = buildFleet(player2);
-    Game1.addPlayer(player2.name, player2Fleet);
-    Game1.logBoard(player2.name);
+    await addPlayer(Game, 'player2');
   } else {
-    // Build computer fleet if human was selected
+    await addPlayer(Game);
   }
 
-  // TODO: Build attack interface
+  // Run attack sequence
+  await runAttackSequence(Game);
 }
 
 startGame();

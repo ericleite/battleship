@@ -2,9 +2,9 @@ const Player = require('../Player/Player');
 
 class Game {
   constructor(size) {
-    this.size = size;
+    this.isOver = false;
     this.players = [];
-    this.over = false;
+    this.size = size;
   }
 
   addPlayer(name, fleet) {
@@ -21,13 +21,13 @@ class Game {
     this.logStatus();
   }
 
-  logBoard(name) {
+  logBoard(name, format) {
     const player = this.players.find(p => p.name === name);
-    player.logBoard();
+    player.logBoard(format);
   }
 
   logStatus() {
-    if (this.over) {
+    if (this.isOver) {
       console.log(`Game over. ${this.players[0].name} wins!`);
     }
   }
@@ -36,7 +36,7 @@ class Game {
     this.players.sort((a, b) => b.getHealth() - a.getHealth());
     this.players.forEach(player => {
       if (player.getHealth() === 0) {
-        this.over = true;
+        this.isOver = true;
       }
     });
   }
