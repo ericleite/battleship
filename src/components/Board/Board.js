@@ -7,6 +7,9 @@ class Board {
     this.grid = this.createGrid(size, fleet);
   }
 
+  // Public Methods
+  // --------------
+
   /**
    * Creates an N by N grid filled with Units.
    * @param {Number} size - Size of the grid.
@@ -17,22 +20,24 @@ class Board {
       throw new Error('size must be numerical and greater than 0');
     }
     // Initialize 2D grid
-    const grid = Array.from({ length: size }, arr => Array(size).fill(new Unit()));
+    const grid = [];
+    for (let i = 0; i < size; i++) {
+      grid[i] = [];
+      for (let j = 0; j < size; j++) {
+        grid[i][j] = new Unit();
+      }
+    }
     // Place fleet
     fleet.forEach(ship => this.placeShip(ship, grid));
     return grid;
   }
 
-  createOutputGrid() {
-    return this.grid.map(
-      row => row.map(
-        unit => { return unit.constructor.name === 'ShipUnit' ? 'X' : '-'; }
-      ).join(' ')
-    );
-  }
-
-  logBoard() {
-    this.createOutputGrid().forEach(grid => {
+  /**
+   * Logs texual representation of a grid.
+   * @param {String} format - Format of grid text.
+   */
+  logBoard(format) {
+    this._convertGridToText(this.grid, format).forEach(grid => {
       console.log(grid);
     });
   }
@@ -77,6 +82,52 @@ class Board {
    */
   receiveAttack(x, y) {
     this.grid[y][x].receiveAttack();
+  }
+
+  // Private Methods
+  // ---------------
+
+  /**
+   * Converts a Unit class into a textual representation.
+   * @param {Class} unit - Unit class.
+   * @param {String} format - Format of text output. One of ["attacks", "placement"].
+   * @returns {String} - The text representation of this unit.
+   */
+  _convertUnitToText(unit, format = 'attacks') {
+    switch (format) {
+      case 'attacks':
+        if (unit.attacks === 0) {
+          return '-';
+        } else {
+          if (unit.constructor.name === 'Unit') {
+            return 'O';
+          } else {
+            return 'X';
+          }
+        }
+        break;
+      case 'placement':
+        if (unit.constructor.name === 'Unit') {
+          return '-';
+        } else {
+          return '~';
+        }
+        break;
+    }
+  }
+
+  /**
+   * Converts a 2D grid into a textual representation of the grid.
+   * @param {Array[Array]} grid - 2D grid array to convert to text.
+   * @param {String} format - Format of grid text.
+   * @returns {Array[Array]} - 2D grid array with text instead of Units.
+   */
+  _convertGridToText(grid, format) {
+    return grid.map(
+      row => row.map(
+        unit => this._convertUnitToText(unit, format)
+      ).join(' ')
+    );
   }
 }
 

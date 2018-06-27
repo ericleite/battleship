@@ -20,19 +20,6 @@ describe('Board', () => {
     });
   });
 
-  describe('createOutputGrid', () => {
-    test('works as expected', () => {
-      const Board1 = new Board(3, [new Ship(2, [0, 0]), new Ship(2, [2, 1], ORIENTATIONS.V)]);
-      const board1OutputGrid = Board1.createOutputGrid();
-      const correctBoard1OutputGrid = [
-        'X X -',
-        '- - X',
-        '- - X'
-      ];
-      expect(board1OutputGrid).toEqual(correctBoard1OutputGrid);
-    });
-  });
-
   describe('placeShip', () => {
     test('does not throw when ship is on the boundary', () => {
       const Ship1 = new Ship(4, [0, 0]);
@@ -58,6 +45,33 @@ describe('Board', () => {
       const Board1 = new Board(4);
       expect(() => { Board1.placeShip(Ship1, Board1.grid); }).not.toThrow();
       expect(() => { Board1.placeShip(Ship2, Board2.grid); }).toThrow();
+    });
+  });
+
+  describe('_convertGridToText', () => {
+    const Board1 = new Board(3, [new Ship(2, [0, 0]), new Ship(2, [2, 1], ORIENTATIONS.V)]);
+    Board1.receiveAttack(0, 0);
+    Board1.receiveAttack(1, 1);
+    Board1.receiveAttack(2, 2);
+
+    test('"attacks" format', () => {
+      const testGrid = Board1._convertGridToText(Board1.grid, 'attacks');
+      const expectedGrid = [
+        'X - -',
+        '- O -',
+        '- - X'
+      ];
+      expect(testGrid).toEqual(expectedGrid);
+    });
+
+    test('"placement" format', () => {
+      const testGrid = Board1._convertGridToText(Board1.grid, 'placement');
+      const expectedGrid = [
+        '~ ~ -',
+        '- - ~',
+        '- - ~'
+      ];
+      expect(testGrid).toEqual(expectedGrid);
     });
   });
 
