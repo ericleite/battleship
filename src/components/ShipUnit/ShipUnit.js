@@ -33,6 +33,6 @@ class ShipUnit extends Unit {
   }
 }
 
-Unit.constructor.name = 'ShipUnit';
+ShipUnit.constructor.name = 'ShipUnit';
 
 module.exports = ShipUnit;

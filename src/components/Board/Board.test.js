@@ -20,6 +20,19 @@ describe('Board', () => {
     });
   });
 
+  describe('createOutputGrid', () => {
+    test('works as expected', () => {
+      const Board1 = new Board(3, [new Ship(2, [0, 0]), new Ship(2, [2, 1], ORIENTATIONS.V)]);
+      const board1OutputGrid = Board1.createOutputGrid();
+      const correctBoard1OutputGrid = [
+        'X X -',
+        '- - X',
+        '- - X'
+      ];
+      expect(board1OutputGrid).toEqual(correctBoard1OutputGrid);
+    });
+  });
+
   describe('placeShip', () => {
     test('does not throw when ship is on the boundary', () => {
       const Ship1 = new Ship(4, [0, 0]);

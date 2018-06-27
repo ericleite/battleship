@@ -21,6 +21,11 @@ class Game {
     this.logStatus();
   }
 
+  logBoard(name) {
+    const player = this.players.find(p => p.name === name);
+    player.logBoard();
+  }
+
   logStatus() {
     if (this.over) {
       console.log(`Game over. ${this.players[0].name} wins!`);

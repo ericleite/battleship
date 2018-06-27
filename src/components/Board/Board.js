@@ -23,6 +23,20 @@ class Board {
     return grid;
   }
 
+  createOutputGrid() {
+    return this.grid.map(
+      row => row.map(
+        unit => { return unit.constructor.name === 'ShipUnit' ? 'X' : '-'; }
+      ).join(' ')
+    );
+  }
+
+  logBoard() {
+    this.createOutputGrid().forEach(grid => {
+      console.log(grid);
+    });
+  }
+
   /**
    * Adds a ship to a grid.
    * @param {Object} ship - Ship class.
@@ -49,7 +63,7 @@ class Board {
         xOffset = ship.x;
         yOffset = ship[axis] + i;
       }
-      if (grid[yOffset][xOffset].name === 'ShipUnit') {
+      if (grid[yOffset][xOffset].constructor.name === 'ShipUnit') {
         throw new Error(`ship overlaps with existing ship at [${xOffset}, ${yOffset}]`);
       }
       grid[yOffset][xOffset] = units[i];
