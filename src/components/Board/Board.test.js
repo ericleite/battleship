@@ -20,6 +20,16 @@ describe('Board', () => {
     });
   });
 
+  describe('getBounds', () => {
+    test('works as expected', () => {
+      const Board1 = new Board(5);
+      expect(Board1.getBounds()).toEqual({
+        x: 5,
+        y: 5
+      });
+    });
+  });
+
   describe('placeShip', () => {
     test('does not throw when ship is on the boundary', () => {
       const Ship1 = new Ship(4, [0, 0]);

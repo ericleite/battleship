@@ -11,6 +11,14 @@ class Player {
     return this.fleet.reduce((acc, ship) => acc + ship.getHealth(), 0);
   }
 
+  getBoardBounds() {
+    return this.board.getBounds();
+  }
+
+  hasValidBoard() {
+    return (this.board instanceof Board) && this.board.hasValidGrid();
+  }
+
   logBoard(format) {
     this.board.logBoard(format);
   }

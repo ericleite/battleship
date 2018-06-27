@@ -1,3 +1,5 @@
+// Libs
+const _ = require('lodash');
 const Unit = require('../Unit/Unit');
 const ShipUnit = require('../ShipUnit/ShipUnit');
 const { ORIENTATIONS } = require('../../utils/constants');
@@ -33,6 +35,30 @@ class Board {
   }
 
   /**
+   * Gets the X and Y bounds of the board.
+   */
+  getBounds() {
+    if (!this.hasValidGrid()) {
+      throw new Error('board is not valid');
+    }
+    return {
+      x: this.grid[0].length,
+      y: this.grid.length
+    }
+  }
+
+  /**
+   * Checks if the grid is formatted correctly.
+   */
+  hasValidGrid() {
+    return (
+      _.isArray(this.grid) &&
+      _.isArray(this.grid[0]) &&
+      _.size(this.grid) === _.size(this.grid[0])
+    );
+  }
+
+  /**
    * Logs texual representation of a grid.
    * @param {String} format - Format of grid text.
    */
@@ -58,7 +84,7 @@ class Board {
     }
 
     if (ship[axis] < 0 || ship[axis] > upperBound) {
-      throw new Error(`ship ${axis} coordinate must be between 0 and ${upperBound}`);
+      throw new Error(`ship ${axis} coordinate must be between 1 and ${upperBound + 1}`);
     }
 
     for (let i = 0; i < ship.size; i++) {

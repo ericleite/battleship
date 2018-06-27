@@ -1,4 +1,5 @@
 module.exports = {
+  COMPUTER: 'computer',
   MESSAGES: {
     MISS: 'Miss',
     TAKEN: 'Already Taken',
